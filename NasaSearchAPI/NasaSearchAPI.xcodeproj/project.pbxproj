@@ -15,6 +15,7 @@
 		1EBF263C2A287D9B007E2D44 /* NasaSearchAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF263B2A287D9B007E2D44 /* NasaSearchAPITests.swift */; };
 		1EBF26462A287D9B007E2D44 /* NasaSearchAPIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF26452A287D9B007E2D44 /* NasaSearchAPIUITests.swift */; };
 		1EBF26482A287D9B007E2D44 /* NasaSearchAPIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF26472A287D9B007E2D44 /* NasaSearchAPIUITestsLaunchTests.swift */; };
+		1EBF26572A288148007E2D44 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF26562A288148007E2D44 /* SearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		1EBF26412A287D9B007E2D44 /* NasaSearchAPIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NasaSearchAPIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EBF26452A287D9B007E2D44 /* NasaSearchAPIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaSearchAPIUITests.swift; sourceTree = "<group>"; };
 		1EBF26472A287D9B007E2D44 /* NasaSearchAPIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaSearchAPIUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1EBF26562A288148007E2D44 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 		1EBF26552A2880AC007E2D44 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1EBF26562A288148007E2D44 /* SearchViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			files = (
 				1EBF26292A287D9A007E2D44 /* SearchViewController.swift in Sources */,
 				1EBF26252A287D9A007E2D44 /* AppDelegate.swift in Sources */,
+				1EBF26572A288148007E2D44 /* SearchViewModel.swift in Sources */,
 				1EBF26272A287D9A007E2D44 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
