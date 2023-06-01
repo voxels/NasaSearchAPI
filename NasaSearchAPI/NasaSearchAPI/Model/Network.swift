@@ -19,7 +19,7 @@ public enum NetworkError : Error {
 
 public class Network {
     internal var session:URLSession?
-    internal let debug:Bool = true
+    internal let debug:Bool = false
     
     public func fetch(endpoint:String, from server:URL, with queryItems:[URLQueryItem]? = nil) async throws -> Data {
         guard var components = URLComponents(url: server, resolvingAgainstBaseURL: false) else {
