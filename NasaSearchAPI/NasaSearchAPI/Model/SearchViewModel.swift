@@ -8,8 +8,15 @@
 import Foundation
 
 public struct SearchViewModel {
-    public var serverURL:URL = URL(string: "https://images-api.nasa.gov")!
-    public var searchEndpoint:String = "search"
     public var query:String?
-    
+    internal let network = Network()
+    internal let serverURL:URL = URL(string: "https://images-api.nasa.gov")!
+    internal let searchEndpointAddress:String = "search"
+
+}
+
+extension SearchViewModel {
+    public func search(for query:String) {
+        
+    }
 }
