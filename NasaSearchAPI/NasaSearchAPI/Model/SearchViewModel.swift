@@ -7,6 +7,9 @@
 
 import Foundation
 
-struct SearchViewModel {
+public struct SearchViewModel {
+    public var serverURL:URL = URL(string: "https://images-api.nasa.gov")!
+    public var searchEndpoint:String = "search"
+    public var query:String?
     
 }

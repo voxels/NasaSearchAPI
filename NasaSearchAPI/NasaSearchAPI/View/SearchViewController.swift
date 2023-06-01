@@ -16,7 +16,5 @@ class SearchViewController: UIViewController {
         view.backgroundColor = UIColor.systemBackground
 
     }
-
-
 }
 
