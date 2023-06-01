@@ -47,6 +47,7 @@ public class SearchViewController: UIViewController {
         buildSearchBarContainerView(with: model.currentQuery)
         buildSearchQueryResponseCollectionView()
         updateModel(with: model.currentQuery)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
 
@@ -149,6 +150,12 @@ extension SearchViewController {
 extension SearchViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? SearchQueryResponseCollectionViewCell, let item = cell.searchCollectionItem {
+            let detailModel = ImageDetailViewModel(item: item)
+            let detailViewController = ImageDetailViewController(model: detailModel)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }
     }
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
