@@ -1,7 +1,7 @@
 # NasaSearchAPI
 Toy app that exposes the Nasa Search API
 
-1. Which libriries you chose and why
+1. Which libraries you chose and why
 Beyond the data source from NASA, this app does not use 3rd party libraries because none are necessary to fetch and show the images.  
 
 2. App architecture overview
