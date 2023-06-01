@@ -51,8 +51,10 @@ public class Network {
         if let json = json as? [String:Any] {
             return json
         } else if let _ = json as? [[String:Any]] {
+            print("Error for response \(response.1)")
             throw NetworkError.JSONArrayResponseError
         } else {
+            print("Error for response \(response.1)")
             throw NetworkError.UnexpectedResponseError
         }
     }
