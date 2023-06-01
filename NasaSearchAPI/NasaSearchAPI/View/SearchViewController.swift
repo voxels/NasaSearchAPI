@@ -7,24 +7,32 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+public class SearchViewController: UIViewController {
     internal var model:SearchViewModel = SearchViewModel()
     internal var lastQuery:String = "apollo 11"
-    
+    internal var collectionView: UICollectionView! = nil
+    internal var searchBarContainerView:UIView = UIView(frame:.zero)
+    internal var searchBarTextField:UISearchTextField?
+
     private let searchBarContainerViewHeight:CGFloat = 48 + 16
     private let searchBarEdgeInsets = UIEdgeInsets(top: 8, left: 20, bottom: -8, right: -20)
-    private var searchBarContainerView:UIView = UIView(frame:.zero)
-    private var searchBarTextField:UISearchTextField?
 
-    override func viewDidLoad() {
+    internal var dataSource: UICollectionViewDiffableDataSource<Section, NASASearchCollectionItem>! = nil
+    
+    public enum Section {
+        case main
+    }
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
         model.delegate = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         buildSearchBarContainerView(with: lastQuery)
+        buildSearchQueryResponseCollectionView()
         updateModel(with: lastQuery)
     }
 }
@@ -65,17 +73,81 @@ extension SearchViewController {
         searchBarTextField!.bottomAnchor.constraint(equalTo: searchBarContainerView.bottomAnchor, constant: searchBarEdgeInsets.bottom).isActive = true
         searchBarTextField?.placeholder = query
     }
+    
+    internal func buildSearchQueryResponseCollectionView() {
+        configureHierarchy()
+        configureDataSource()
+    }
 }
+
+extension SearchViewController {
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+              
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(view.frame.size.width))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+      
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.interGroupSpacing = 8.0
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    private func configureHierarchy() {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints  = false
+        view.addSubview(collectionView)
+        collectionView.backgroundColor = UIColor.systemBackground
+        collectionView.topAnchor.constraint(equalTo: searchBarContainerView.bottomAnchor).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        collectionView.delegate = self
+    }
+    
+    private func configureDataSource() {
+        
+        let cellRegistration = UICollectionView.CellRegistration<SearchQueryResponseCollectionViewCell, NASASearchCollectionItem> { (cell, indexPath, item) in
+            cell.searchCollectionItem = item
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, NASASearchCollectionItem>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: NASASearchCollectionItem) -> UICollectionViewCell? in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
+    }
+    
+    private func updateCollectionViewModel(with items:[NASASearchCollectionItem]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, NASASearchCollectionItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
 
 extension SearchViewController : SearchViewModelDelegate {
     public func modelDidUpdate(with response: NASASearchResponse) {
-        let items = response.collection.items
-        for item in items {
-            for link in item.links {
-                print(link.href)
-            }
-            print(item.data)
+        model.add(collection: response.collection)
+        var allItems = [NASASearchCollectionItem]()
+        for collection in model.allCollections {
+            allItems.append(contentsOf: collection.items)
         }
+        updateCollectionViewModel(with: allItems)
     }
 }
 

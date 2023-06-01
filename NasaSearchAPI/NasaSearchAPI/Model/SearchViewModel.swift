@@ -18,6 +18,7 @@ public protocol SearchViewModelDelegate : AnyObject{
 final class SearchViewModel {
     public var currentQuery:String?
     public weak var delegate:SearchViewModelDelegate?
+    public var allCollections:[NASASearchCollection] = [NASASearchCollection]()
     internal let network = Network()
     internal let serverURL:URL = URL(string: "https://images-api.nasa.gov")!
     internal let searchEndpointAddress:String = "search"
@@ -27,7 +28,6 @@ final class SearchViewModel {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
-
 }
 
 extension SearchViewModel {
@@ -41,6 +41,19 @@ extension SearchViewModel {
         
         DispatchQueue.main.async { [weak self] in
             self?.delegate?.modelDidUpdate(with: decodedResponse)
+        }
+    }
+    
+    public func add(collection:NASASearchCollection) {
+        let pageLinks = allCollections.compactMap { collection in
+            return collection.href
+        }
+        
+        if !pageLinks.contains(collection.href) {
+            allCollections.append(collection)
+            allCollections = allCollections.sorted(by: { firstCollection, checkCollection in
+                return firstCollection.href < checkCollection.href
+            })
         }
     }
 }

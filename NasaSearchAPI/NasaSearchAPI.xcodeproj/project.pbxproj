@@ -20,6 +20,9 @@
 		1EBF265A2A28863C007E2D44 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF26582A28863C007E2D44 /* Network.swift */; };
 		1EBF265C2A289C19007E2D44 /* NASASearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF265B2A289C19007E2D44 /* NASASearchResponse.swift */; };
 		1EBF265D2A289C19007E2D44 /* NASASearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF265B2A289C19007E2D44 /* NASASearchResponse.swift */; };
+		1EBF265F2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF265E2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift */; };
+		1EBF26602A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF265E2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift */; };
+		1EBF26612A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF265E2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,7 @@
 		1EBF26562A288148007E2D44 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		1EBF26582A28863C007E2D44 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		1EBF265B2A289C19007E2D44 /* NASASearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASASearchResponse.swift; sourceTree = "<group>"; };
+		1EBF265E2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQueryResponseCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				1EBF26282A287D9A007E2D44 /* SearchViewController.swift */,
+				1EBF265E2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EBF26592A28863C007E2D44 /* Network.swift in Sources */,
+				1EBF265F2A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift in Sources */,
 				1EBF26292A287D9A007E2D44 /* SearchViewController.swift in Sources */,
 				1EBF26252A287D9A007E2D44 /* AppDelegate.swift in Sources */,
 				1EBF265C2A289C19007E2D44 /* NASASearchResponse.swift in Sources */,
@@ -294,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EBF26602A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift in Sources */,
 				1EBF265D2A289C19007E2D44 /* NASASearchResponse.swift in Sources */,
 				1EBF265A2A28863C007E2D44 /* Network.swift in Sources */,
 				1EBF263C2A287D9B007E2D44 /* NasaSearchAPITests.swift in Sources */,
@@ -306,6 +313,7 @@
 			files = (
 				1EBF26482A287D9B007E2D44 /* NasaSearchAPIUITestsLaunchTests.swift in Sources */,
 				1EBF26462A287D9B007E2D44 /* NasaSearchAPIUITests.swift in Sources */,
+				1EBF26612A28A9A9007E2D44 /* SearchQueryResponseCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
