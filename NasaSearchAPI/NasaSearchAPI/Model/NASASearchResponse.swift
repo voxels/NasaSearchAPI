@@ -39,7 +39,7 @@ public struct NASASearchCollectionItemData : Decodable, Hashable {
     let center:String
     let dateCreated:String
     let description:String
-    let keywords:[String]
+    let keywords:[String]?
     let mediaType:String
     let nasaId:String
     let title:String

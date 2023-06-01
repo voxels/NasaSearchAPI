@@ -29,6 +29,8 @@ open class SearchQueryResponseCollectionViewCell : UICollectionViewCell {
     internal var previewImageRelString = "preview"
     internal let scrimView = UIView(frame:.zero)
     internal let scrimViewGradientLayer = CAGradientLayer()
+    internal var imageTask:Task<UIImage?, Error>?
+    internal var imageURLSession:URLSession = URLSession(configuration: URLSessionConfiguration.default)
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +43,7 @@ open class SearchQueryResponseCollectionViewCell : UICollectionViewCell {
         
     public override func prepareForReuse() {
         super.prepareForReuse()
+        imageTask?.cancel()
         imageView.image = nil
         textLabel.text = ""
         
@@ -147,16 +150,23 @@ extension SearchQueryResponseCollectionViewCell {
             throw SearchQueryResponseCollectionViewCellError.URLEncodingError
         }
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        imageTask = Task.init {
             do {
-                let data = try Data(contentsOf: url)
-                DispatchQueue.main.async { [weak self] in
-                    self?.imageView.image = UIImage(data: data)
-                }
+                let data = try await imageURLSession.data(for: URLRequest(url: url))
+                return UIImage(data: data.0)
             } catch {
                 //report error to logging
                 print(error)
+                return nil
             }
+        }
+        
+        guard let image = try await imageTask?.value else {
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = image
         }
     }
 }

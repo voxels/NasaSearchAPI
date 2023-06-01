@@ -150,10 +150,28 @@ extension SearchViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let numberOfItems = collectionView.numberOfItems(inSection: 0)
+        
+        guard numberOfItems >= 1 else {
+            return
+        }
+        
+        let triggerItem = numberOfItems - 1
+        
+        if indexPath.item >= triggerItem, model.lastPage < 100 {
+            updateModel(with: model.currentQuery, on: model.lastPage + 1)
+        }
+    }
 }
 
 
 extension SearchViewController : SearchViewModelDelegate {
+    public func modelDidUpdateQuery() {
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+    }
+    
     public func modelDidUpdate(with response: NASASearchResponse) {
         model.add(collection: response.collection)
         var allItems = [NASASearchCollectionItem]()

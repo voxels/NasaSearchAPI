@@ -12,6 +12,7 @@ public enum SearchViewModelError : Error {
 }
 
 public protocol SearchViewModelDelegate : AnyObject{
+    func modelDidUpdateQuery()
     func modelDidUpdate(with response:NASASearchResponse)
 }
 
@@ -23,6 +24,7 @@ final class SearchViewModel {
     internal let network = Network()
     internal let serverURL:URL = URL(string: "https://images-api.nasa.gov")!
     internal let searchEndpointAddress:String = "search"
+    internal var lastPage:Int = 1
     
     static let jsonDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -40,11 +42,13 @@ final class SearchViewModel {
 extension SearchViewModel {
     public func search(for query:String, page:Int = 1) async throws {
         if query != currentQuery {
+            lastPage = 1
             allCollections.removeAll()
             currentQuery = query
             let defaults = UserDefaults.standard
             defaults.set(query, forKey: SearchViewModel.lastQueryDefaultsKey)
             defaults.synchronize()
+            delegate?.modelDidUpdateQuery()
         }
         let queryItem = URLQueryItem(name: "q", value: query)
         let pageQueryItem = URLQueryItem(name: "page", value: "\(page)")
@@ -67,6 +71,18 @@ extension SearchViewModel {
             allCollections = allCollections.sorted(by: { firstCollection, checkCollection in
                 return firstCollection.href < checkCollection.href
             })
+            
+            if let lastCollection = allCollections.last, let url = URL(string: lastCollection.href) {
+                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let queryItems = components?.queryItems
+                if let queryItems = queryItems {
+                    for item in queryItems {
+                        if item.name == "page", let page = item.value, let pageInt = Int(page) {
+                            lastPage = min(pageInt, 100)
+                        }
+                    }
+                }
+            }
         }
     }
 }
