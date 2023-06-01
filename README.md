@@ -9,6 +9,6 @@ The app contains two view controllers, a view for each cell in the search view c
 
 3. Build and Run using XCode:  No extra steps are required besides changing the bundle identifier and team for running on device.
 
-4. Other info:  There are no unit tests for this app because the guidance was to take a half a day to complete the assignment and adding unit tests would push the scope beyond what was requested.  Almost all of the model is just networking code, so unit tests would be focused on ensuring responses from the server are correct rather than ensuring the app's model functions as expected, which seems out of scope for this assignment.  Also of note: The app is intentionally built to handle both light and dark mode on iOS.
+4. Other info:  There are no unit tests for this app.  Unit tests for this model would be focused on ensuring responses from the server are correct rather than ensuring the app's model functions as expected.    Also of note: The app is intentionally built to handle both light and dark mode on iOS.
 
 
