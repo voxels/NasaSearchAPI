@@ -36,8 +36,14 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController : SearchViewModelDelegate {
-    public func modelDidUpdate(with response: [String : Any]) {
-        print(response)
+    public func modelDidUpdate(with response: NASASearchResponse) {
+        let items = response.collection.items
+        for item in items {
+            for link in item.links {
+                print(link.href)
+            }
+            print(item.data)
+        }
     }
 }
 

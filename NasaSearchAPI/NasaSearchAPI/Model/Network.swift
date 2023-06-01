@@ -19,8 +19,9 @@ public enum NetworkError : Error {
 
 public class Network {
     internal var session:URLSession?
+    internal let debug:Bool = true
     
-    public func fetch(endpoint:String, from server:URL, with queryItems:[URLQueryItem]? = nil) async throws -> [String:Any] {
+    public func fetch(endpoint:String, from server:URL, with queryItems:[URLQueryItem]? = nil) async throws -> Data {
         guard var components = URLComponents(url: server, resolvingAgainstBaseURL: false) else {
             throw NetworkError.ServerAddressError
         }
@@ -48,8 +49,12 @@ public class Network {
         
         let json = try JSONSerialization.jsonObject(with: data)
         
-        if let json = json as? [String:Any] {
-            return json
+        if debug {
+            print(json)
+        }
+        
+        if let _ = json as? [String:Any] {
+            return data
         } else if let _ = json as? [[String:Any]] {
             print("Error for response \(response.1)")
             throw NetworkError.JSONArrayResponseError
