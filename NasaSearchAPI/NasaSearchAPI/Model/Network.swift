@@ -25,7 +25,7 @@ public class Network {
             throw NetworkError.ServerAddressError
         }
         
-        components.path = endpoint
+        components.path = "/\(endpoint)"
         components.queryItems = queryItems
         
         if session == nil {
