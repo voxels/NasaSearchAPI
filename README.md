@@ -5,7 +5,7 @@ Toy app that exposes the Nasa Search API
 Beyond the data source from NASA, this app does not use 3rd party libraries because none are necessary to fetch and show the data.  
 
 2. App architecture overview:
-The app contains two view controllers, a view for each cell in the search view controller's collectionView, a model for each view controller, a networking class, and a collection of structs for encapsulating the response from the API, and .
+The app contains two view controllers, a view for each cell in the search view controller's collectionView, a model for each view controller, a networking class, and a collection of structs for encapsulating the response from the API.
 
 3. Build and Run using XCode:  No extra steps are required besides changing the bundle identifier and team for running on device.
 
