@@ -169,6 +169,7 @@ extension SearchViewController: UICollectionViewDelegate {
 
 extension SearchViewController : SearchViewModelDelegate {
     public func modelDidUpdateQuery() {
+        searchBarTextField?.placeholder = model.currentQuery
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
     }
     

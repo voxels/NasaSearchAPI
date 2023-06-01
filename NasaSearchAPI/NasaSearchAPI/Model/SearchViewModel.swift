@@ -48,7 +48,9 @@ extension SearchViewModel {
             let defaults = UserDefaults.standard
             defaults.set(query, forKey: SearchViewModel.lastQueryDefaultsKey)
             defaults.synchronize()
-            delegate?.modelDidUpdateQuery()
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.modelDidUpdateQuery()
+            }
         }
         let queryItem = URLQueryItem(name: "q", value: query)
         let pageQueryItem = URLQueryItem(name: "page", value: "\(page)")
