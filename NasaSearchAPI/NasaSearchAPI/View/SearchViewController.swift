@@ -40,14 +40,15 @@ public class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
         model.delegate = self
+        buildSearchBarContainerView(with: model.currentQuery)
+        buildSearchQueryResponseCollectionView()
+        updateModel(with: model.currentQuery)
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        buildSearchBarContainerView(with: model.currentQuery)
-        buildSearchQueryResponseCollectionView()
-        updateModel(with: model.currentQuery)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        self.title = "NASA Images"
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
 
