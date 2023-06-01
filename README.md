@@ -9,6 +9,6 @@ The app contains two view controllers, a view for each cell in the search view c
 
 3. Build and Run using XCode:  No extra steps are required besides changing the bundle identifier and team for running on device.
 
-4. Other info:  There are no unit tests for this app.  Unit tests for this model would be focused on ensuring responses from the server are correct rather than ensuring the app's model functions as expected.  Writing unit tests, which a part of Workday's culture, would push the scope of the test beyond the time requested to complete the assignment.  Also of note: The app is intentionally built to handle both light and dark mode on iOS.
+4. Other info:  There are no unit tests for this app.  Unit tests for this model would be focused on ensuring responses from the server are correct rather than ensuring the app's model functions as expected.  Writing unit tests, while a part of Workday's culture, would push the scope of the test beyond the time requested to complete the assignment.  Also of note: The app is intentionally built to handle both light and dark mode on iOS.
 
 
