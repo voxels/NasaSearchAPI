@@ -18,7 +18,6 @@ public enum NetworkError : Error {
 }
 
 public class Network {
-    
     internal var session:URLSession?
     
     public func fetch(endpoint:String, from server:URL, with queryItems:[URLQueryItem]? = nil) async throws -> [String:Any] {
@@ -51,7 +50,7 @@ public class Network {
         
         if let json = json as? [String:Any] {
             return json
-        } else if let json = json as? [[String:Any]] {
+        } else if let _ = json as? [[String:Any]] {
             throw NetworkError.JSONArrayResponseError
         } else {
             throw NetworkError.UnexpectedResponseError
