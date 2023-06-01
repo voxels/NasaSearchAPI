@@ -16,7 +16,8 @@ public protocol SearchViewModelDelegate : AnyObject{
 }
 
 final class SearchViewModel {
-    public var currentQuery:String?
+    public var currentQuery:String = ""
+    public static let lastQueryDefaultsKey = "com.noisederived.nasasearchapi.lastQuery"
     public weak var delegate:SearchViewModelDelegate?
     public var allCollections:[NASASearchCollection] = [NASASearchCollection]()
     internal let network = Network()
@@ -28,11 +29,23 @@ final class SearchViewModel {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
+    
+    public init(currentQuery: String = "", delegate: SearchViewModelDelegate? = nil, allCollections: [NASASearchCollection] = [NASASearchCollection]()) {
+        self.currentQuery = currentQuery
+        self.delegate = delegate
+        self.allCollections = allCollections
+    }
 }
 
 extension SearchViewModel {
     public func search(for query:String, page:Int = 1) async throws {
-        currentQuery = query
+        if query != currentQuery {
+            allCollections.removeAll()
+            currentQuery = query
+            let defaults = UserDefaults.standard
+            defaults.set(query, forKey: SearchViewModel.lastQueryDefaultsKey)
+            defaults.synchronize()
+        }
         let queryItem = URLQueryItem(name: "q", value: query)
         let pageQueryItem = URLQueryItem(name: "page", value: "\(page)")
         let mediaQueryItem = URLQueryItem(name:"media_type", value: "image")

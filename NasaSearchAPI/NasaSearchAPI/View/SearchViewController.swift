@@ -8,8 +8,7 @@
 import UIKit
 
 public class SearchViewController: UIViewController {
-    internal var model:SearchViewModel = SearchViewModel()
-    internal var lastQuery:String = "apollo 11"
+    internal var model:SearchViewModel
     internal var collectionView: UICollectionView! = nil
     internal var searchBarContainerView:UIView = UIView(frame:.zero)
     internal var searchBarTextField:UISearchTextField?
@@ -23,6 +22,20 @@ public class SearchViewController: UIViewController {
         case main
     }
     
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        let defaults = UserDefaults.standard
+        if let lastQuery = defaults.string(forKey: SearchViewModel.lastQueryDefaultsKey) {
+            model = SearchViewModel(currentQuery:lastQuery)
+        } else {
+            model = SearchViewModel()
+        }
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
@@ -31,9 +44,9 @@ public class SearchViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        buildSearchBarContainerView(with: lastQuery)
+        buildSearchBarContainerView(with: model.currentQuery)
         buildSearchQueryResponseCollectionView()
-        updateModel(with: lastQuery)
+        updateModel(with: model.currentQuery)
     }
 }
 
