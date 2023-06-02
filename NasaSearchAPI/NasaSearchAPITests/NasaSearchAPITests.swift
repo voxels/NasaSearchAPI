@@ -196,6 +196,72 @@ final class NasaSearchAPITests: XCTestCase {
         XCTAssertFalse(delegateMock.modelDidUpdateCalled)
     }
     
+    func testAddNewCollection() {
+        let viewModel = SearchViewModel()
+        let collection1 = NASASearchCollection(href: "http://images-api.nasa.gov/search?q=Moon&page=1&media_type=image", items: [], links: [], metadata: NASASearchCollectionMetadata(totalHits: 0), version: "")
+        let collection2 = NASASearchCollection(href: "http://images-api.nasa.gov/search?q=Moon&page=2&media_type=image", items: [], links: [], metadata: NASASearchCollectionMetadata(totalHits: 0), version: "")
+        
+        // Add the first collection
+        viewModel.add(collection: collection1)
+        
+        // Verify collection is added
+        XCTAssertEqual(viewModel.allCollections.count, 1)
+        XCTAssertTrue(viewModel.allCollections.contains(collection1))
+        
+        // Verify last page is updated
+        XCTAssertEqual(viewModel.lastPage, 1)
+        
+        // Add a different collection
+        viewModel.add(collection: collection2)
+        
+        // Verify second collection is added
+        XCTAssertEqual(viewModel.allCollections.count, 2)
+        XCTAssertTrue(viewModel.allCollections.contains(collection2))
+        
+        // Verify collections are sorted
+        XCTAssertEqual(viewModel.allCollections[0].href, collection1.href)
+        XCTAssertEqual(viewModel.allCollections[1].href, collection2.href)
+        
+        // Verify last page is updated based on query parameters
+        XCTAssertEqual(viewModel.lastPage, 2)
+        
+        // Attempt to add the first collection again
+        viewModel.add(collection: collection1)
+        
+        // Verify duplicate collection is not added
+        XCTAssertEqual(viewModel.allCollections.count, 2)
+    }
+    
+    func testUpdateLastPageWithQueryParameters() {
+        let viewModel = SearchViewModel()
+        
+        // Create a collection with query parameters
+        let collection =  NASASearchCollection(href: "http://images-api.nasa.gov/search?q=Moon&page=5&media_type=image", items: [], links: [], metadata: NASASearchCollectionMetadata(totalHits: 0), version: "")
+        
+        // Add the collection
+        viewModel.add(collection: collection)
+        
+        // Verify collection is added
+        XCTAssertEqual(viewModel.allCollections.count, 1)
+        XCTAssertTrue(viewModel.allCollections.contains(collection))
+        
+        // Verify last page is updated based on query parameters
+        XCTAssertEqual(viewModel.lastPage, 5)
+        
+        // Create a collection with a different page value
+        let collection2 =  NASASearchCollection(href: "http://images-api.nasa.gov/search?q=Moon&page=10&media_type=image", items: [], links: [], metadata: NASASearchCollectionMetadata(totalHits: 0), version: "")
+        
+        // Add the second collection
+        viewModel.add(collection: collection2)
+        
+        // Verify second collection is added
+        XCTAssertEqual(viewModel.allCollections.count, 2)
+        XCTAssertTrue(viewModel.allCollections.contains(collection2))
+        
+        // Verify last page is updated to the maximum value (10)
+        XCTAssertEqual(viewModel.lastPage, 10)
+    }
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {

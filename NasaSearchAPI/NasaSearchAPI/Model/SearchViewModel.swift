@@ -71,7 +71,34 @@ extension SearchViewModel {
         if !pageLinks.contains(collection.href) {
             allCollections.append(collection)
             allCollections = allCollections.sorted(by: { firstCollection, checkCollection in
-                return firstCollection.href < checkCollection.href
+                var firstCollectionPage = 0
+                var checkCollectionPage = 0
+
+                if let firstCollectionUrl = URL(string: firstCollection.href) {
+                    let firstCollectionComponents = URLComponents(url: firstCollectionUrl, resolvingAgainstBaseURL: false)
+                    let firstCollectionQueryItems = firstCollectionComponents?.queryItems
+                    if let queryItems = firstCollectionQueryItems {
+                        for item in queryItems {
+                            if item.name == "page", let page = item.value, let pageInt = Int(page) {
+                                firstCollectionPage = pageInt
+                            }
+                        }
+                    }
+                }
+                
+                if let checkCollectionUrl = URL(string: checkCollection.href) {
+                    let checkCollectionComponents = URLComponents(url: checkCollectionUrl, resolvingAgainstBaseURL: false)
+                    let checkCollectionQueryItems = checkCollectionComponents?.queryItems
+                    if let queryItems = checkCollectionQueryItems {
+                        for item in queryItems {
+                            if item.name == "page", let page = item.value, let pageInt = Int(page) {
+                                checkCollectionPage = pageInt
+                            }
+                        }
+                    }
+                }
+                
+                return firstCollectionPage < checkCollectionPage
             })
             
             if let lastCollection = allCollections.last, let url = URL(string: lastCollection.href) {
