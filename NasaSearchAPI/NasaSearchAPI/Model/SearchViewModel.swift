@@ -21,7 +21,7 @@ final class SearchViewModel {
     public static let lastQueryDefaultsKey = "com.noisederived.nasasearchapi.lastQuery"
     public weak var delegate:SearchViewModelDelegate?
     public var allCollections:[NASASearchCollection] = [NASASearchCollection]()
-    internal let network = Network()
+    internal var network:NetworkProtocol = Network()
     internal let serverURL:URL = URL(string: "https://images-api.nasa.gov")!
     internal let searchEndpointAddress:String = "search"
     internal var lastPage:Int = 1

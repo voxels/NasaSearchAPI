@@ -14,12 +14,17 @@ public enum NetworkError : Error {
     case ServerRequestError
     case JSONArrayResponseError
     case UnexpectedResponseError
+    case MockError
     
 }
 
-public class Network {
+public protocol NetworkProtocol : AnyObject {
+    func fetch(endpoint:String, from server:URL, with queryItems:[URLQueryItem]?) async throws -> Data
+}
+
+public class Network : NetworkProtocol {
     internal var session:URLSession?
-    internal let debug:Bool = false
+    internal let debug:Bool = true
     
     public func fetch(endpoint:String, from server:URL, with queryItems:[URLQueryItem]? = nil) async throws -> Data {
         guard var components = URLComponents(url: server, resolvingAgainstBaseURL: false) else {
